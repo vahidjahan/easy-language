@@ -63,3 +63,18 @@ Review the generated JSON with a French speaker. Only reviewed cards with `statu
 ## Azure infrastructure
 
 `infra/main.bicep` targets an existing resource group. It configures the Static Web App in East US 2 and Functions/Cosmos DB in France Central. Cosmos DB uses provisioned shared throughput and requests the subscription's lifetime free-tier account; eligibility is limited to one free-tier Cosmos account per subscription. Review the Bicep `what-if` output before deploying, and expect possible charges for storage or usage beyond free allowances.
+
+## Publish from GitHub
+
+The `.github/workflows/deploy.yml` workflow is manual-only and deploys the API first, then the frontend. It does not run on each push. In the repository's **Settings → Secrets and variables → Actions**, add these repository variables:
+
+- `VITE_ENTRA_CLIENT_ID`: SPA app registration client ID.
+- `VITE_ENTRA_AUTHORITY`: External ID authority URL.
+- `VITE_ENTRA_API_SCOPE`: API delegated scope URI.
+
+Add these repository secrets using values copied directly from the Azure portal. Never commit or paste their values into chat:
+
+- `AZURE_STATIC_WEB_APPS_API_TOKEN`: Static Web App deployment token.
+- `AZURE_FUNCTIONAPP_PUBLISH_PROFILE`: Function App publish profile XML.
+
+After configuring them, open **Actions → Deploy Le Français Est Facile → Run workflow** on the default branch. The workflow builds and tests the API, deploys it, builds the PWA with the configured variables, then uploads the static frontend. A successful workflow run is required before the deployment is considered published.
