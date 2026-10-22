@@ -1,0 +1,26 @@
+{
+  "name": "le-francais-est-facile-api",
+  "private": true,
+  "type": "module",
+  "main": "dist/src/functions.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "content:generate": "node scripts/generate-cards.mjs",
+    "content:import": "node scripts/import-cards.mjs",
+    "start": "func start --port 7071 --cors https://localhost:5173"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^4.3.0",
+    "@azure/functions": "^4.7.0",
+    "@azure/identity": "^4.13.0",
+    "jose": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "~6.0.3"
+  }
+}
