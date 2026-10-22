@@ -42,9 +42,9 @@ jobs:
     needs: deploy-api
     runs-on: ubuntu-latest
     env:
-      VITE_ENTRA_CLIENT_ID: ${{ vars.VITE_ENTRA_CLIENT_ID }}
-      VITE_ENTRA_AUTHORITY: ${{ vars.VITE_ENTRA_AUTHORITY }}
-      VITE_ENTRA_API_SCOPE: ${{ vars.VITE_ENTRA_API_SCOPE }}
+      VITE_ENTRA_CLIENT_ID: ${{ vars.VITE_ENTRA_CLIENT_ID || secrets.VITE_ENTRA_CLIENT_ID }}
+      VITE_ENTRA_AUTHORITY: ${{ vars.VITE_ENTRA_AUTHORITY || secrets.VITE_ENTRA_AUTHORITY }}
+      VITE_ENTRA_API_SCOPE: ${{ vars.VITE_ENTRA_API_SCOPE || secrets.VITE_ENTRA_API_SCOPE }}
       VITE_API_BASE_URL: https://func-lfe-ykintg3juy3q.azurewebsites.net/api
     steps:
       - name: Check out source

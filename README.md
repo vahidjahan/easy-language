@@ -66,7 +66,7 @@ Review the generated JSON with a French speaker. Only reviewed cards with `statu
 
 ## Publish from GitHub
 
-The `.github/workflows/deploy.yml` workflow is manual-only and deploys the API first, then the frontend. It does not run on each push. In the repository's **Settings → Secrets and variables → Actions**, add these repository variables:
+The `.github/workflows/deploy.yml` workflow is manual-only and deploys the API first, then the frontend. It does not run on each push. In the repository's **Settings → Secrets and variables → Actions**, add these repository variables (the workflow also accepts them as secrets):
 
 - `VITE_ENTRA_CLIENT_ID`: SPA app registration client ID.
 - `VITE_ENTRA_AUTHORITY`: External ID authority URL.
