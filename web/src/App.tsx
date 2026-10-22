@@ -21,6 +21,14 @@ function dateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }
 
+function authErrorCode(error: unknown) {
+  if (typeof error === 'object' && error !== null && 'errorCode' in error) {
+    const code = error.errorCode
+    if (typeof code === 'string') return code
+  }
+  return 'unknown'
+}
+
 function createDateInfo() {
   const now = new Date()
   return {
@@ -100,7 +108,7 @@ function App() {
       .then((signedInAccount) => {
         if (active) setAccount(signedInAccount)
       })
-      .catch(() => setAuthNotice('Sign-in configuration could not be loaded.'))
+      .catch((error: unknown) => setAuthNotice(`Sign-in initialization failed (${authErrorCode(error)}).`))
 
     return () => {
       active = false
@@ -236,7 +244,7 @@ function App() {
             <span className="local-status"><i />{account ? 'Signed in' : 'Local demo profile'}</span>
             {authConfigured && (account
               ? <button className="auth-button" type="button" onClick={() => void signOut()}>Sign out</button>
-              : <button className="auth-button" type="button" onClick={() => void signIn().catch(() => setAuthNotice('Could not start sign-in.'))}>Sign in with email</button>)}
+              : <button className="auth-button" type="button" onClick={() => void signIn().catch((error: unknown) => setAuthNotice(`Sign-in failed (${authErrorCode(error)}).`))}>Sign in with email</button>)}
             <button className="avatar-small" aria-label={account?.name ?? 'Guest profile'}>{account?.name?.slice(0, 1).toUpperCase() ?? 'V'}</button>
           </div>
         </header>
