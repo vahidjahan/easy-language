@@ -27,6 +27,9 @@ jobs:
       - name: Install, build, and test API
         run: npm ci --prefix api && npm test --prefix api
 
+      - name: Verify Functions entry point
+        run: test -f api/dist/src/functions.js
+
       - name: Remove development dependencies
         run: npm prune --prefix api --omit=dev
 

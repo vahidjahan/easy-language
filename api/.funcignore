@@ -3,5 +3,4 @@ local.settings.example.json
 scripts/
 test/
 content/
-src/
 tsconfig.json
