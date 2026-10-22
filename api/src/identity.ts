@@ -1,4 +1,4 @@
-import { createRemoteJWKSet, jwtVerify, type JWTPayload } from 'jose'
+import type { JWTPayload } from 'jose'
 
 export class AuthenticationError extends Error {}
 
@@ -8,7 +8,7 @@ type OpenIdMetadata = {
 }
 
 let metadataPromise: Promise<OpenIdMetadata> | undefined
-let jwks: ReturnType<typeof createRemoteJWKSet> | undefined
+let jwks: ReturnType<typeof import('jose').createRemoteJWKSet> | undefined
 
 async function getMetadata(): Promise<OpenIdMetadata> {
   const metadataUrl = process.env.ENTRA_METADATA_URL
@@ -33,10 +33,11 @@ export async function authenticate(authorization: string | null): Promise<{ user
   if (!audience) throw new Error('ENTRA_API_AUDIENCE is not configured.')
 
   const metadata = await getMetadata()
-  jwks ??= createRemoteJWKSet(new URL(metadata.jwks_uri))
+  const jose = await import('jose')
+  jwks ??= jose.createRemoteJWKSet(new URL(metadata.jwks_uri))
 
   try {
-    const { payload } = await jwtVerify(match[1], jwks, {
+    const { payload } = await jose.jwtVerify(match[1], jwks, {
       issuer: metadata.issuer,
       audience,
     })

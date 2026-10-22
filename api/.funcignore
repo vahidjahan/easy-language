@@ -3,4 +3,5 @@ local.settings.example.json
 scripts/
 test/
 content/
-tsconfig.json
+dist/
+node_modules/

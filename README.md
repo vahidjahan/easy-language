@@ -51,7 +51,7 @@ npm test
 
 ## Vocabulary candidates
 
-Set `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, and `AZURE_OPENAI_DEPLOYMENT` in the process environment, then generate unreviewed candidates:
+Sign in with Azure CLI (`az login`) using an identity with the **Cognitive Services OpenAI User** role on the Azure OpenAI resource. Set `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_DEPLOYMENT` in the process environment; the script obtains an Entra access token and does not require an API key:
 
 ```powershell
 cd api

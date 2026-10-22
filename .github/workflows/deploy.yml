@@ -27,11 +27,11 @@ jobs:
       - name: Install, build, and test API
         run: npm ci --prefix api && npm test --prefix api
 
+      - name: Verify Functions entry point loads
+        run: node -e "require('./api/dist/src/functions.js')"
+
       - name: Verify Functions entry point
         run: test -f api/dist/src/functions.js
-
-      - name: Remove development dependencies
-        run: npm prune --prefix api --omit=dev
 
       - name: Deploy Function App
         uses: Azure/functions-action@c5060b3b8bb1ebbcb531abd00c822ecbaa8ea656
@@ -40,6 +40,7 @@ jobs:
           package: api
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
           respect-funcignore: true
+          remote-build: true
 
   deploy-frontend:
     needs: deploy-api
