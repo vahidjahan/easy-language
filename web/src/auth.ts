@@ -1,4 +1,5 @@
 import {
+  LogLevel,
   PublicClientApplication,
   type AccountInfo,
   type Configuration,
@@ -22,11 +23,17 @@ function getClient() {
       auth: {
         clientId,
         authority,
-        knownAuthorities: [new URL(authority).hostname],
         redirectUri: window.location.origin,
       },
       cache: {
         cacheLocation: 'sessionStorage',
+      },
+      system: {
+        loggerOptions: {
+          loggerCallback: (level, message, containsPii) => {
+            if (!containsPii && level === LogLevel.Error) console.error(message)
+          },
+        },
       },
     }
 
